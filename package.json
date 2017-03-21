@@ -1,0 +1,23 @@
+{
+  "name": "ap-job-runner",
+  "version": "0.0.1",
+  "description": "ap-job-runner",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openaplis/ap-job-runner.git"
+  },
+  "author": "Sid Harder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/openaplis/ap-job-runner/issues"
+  },
+  "homepage": "https://github.com/openaplis/ap-job-runner#readme",
+  "dependencies": {
+    "cron": "^1.2.1",
+    "winston": "^2.3.1"
+  }
+}
