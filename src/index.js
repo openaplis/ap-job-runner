@@ -1,33 +1,43 @@
 'use strict'
 
-const winston = require('winston');
+const winston = require('winston')
 const CronJob = require('cron').CronJob
 const fs = require('fs')
-const logDir = 'log'
-const env = process.env.NODE_ENV || 'info'
+const path = require('path')
 
-if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir);
+const updateFedexShipments = require('./core/update-fedex-shipments.js')
+const breastFixationExceptions = require('./core/breast-fixation-exceptions.js')
+const logDir = path.resolve('./log')
+
+function main() {
+
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir)
+  }
+
+  winston.add(winston.transports.File, {
+    'name': 'access-file',
+    'level': 'info',
+    'filename': path.join(logDir, 'app.log'),
+    'json': false,
+    'datePattern': 'yyyy-MM-dd-',
+    'prepend': true
+  })
+
+  //var updateFexShipmentsJob = new CronJob('0 0 18 1/1 * ? *', function() {
+  //  updateFedexShipments.update(function (err, result) {
+  //    winston.info(result)
+  //  })
+  //}, null, true, null)
+
+  var breastFixationExceptionsJob = new CronJob('*/10 * * * * *', function() {
+    breastFixationExceptions.run(function (err, result) {
+      if(err) return console.log(err)
+      console.log(result)
+      //winston.info(result)
+    })
+  }, null, true, null)
+
 }
 
-const tsFormat = () => (new Date()).toLocaleTimeString()
-
-const logger = new (winston.Logger)({
-  transports: [
-    // colorize the output to the console
-    new (winston.transports.Console)({
-      timestamp: tsFormat,
-      colorize: true,
-      level: 'info'
-    }),
-    new (winston.transports.File)({
-      filename: `${logDir}/results.log`,
-      timestamp: tsFormat,
-      level: env === 'development' ? 'debug' : 'info'
-    })
-  ]
-})
-
-var job = new CronJob('00 41 11 * * 1-5', function() {
-  logger.info('The cron job fired successfully.')
-}, null, true, null)
+main()
