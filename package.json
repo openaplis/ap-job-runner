@@ -4,8 +4,7 @@
   "description": "ap-job-runner",
   "main": "src/index.js",
   "scripts": {
-    "start": "set NODE_ENV=PROD && node src/index.js",
-    "dev": "set NODE_ENV=DEV && node src/index.js"
+    "start-service": "node src/start-service.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +17,10 @@
   },
   "homepage": "https://github.com/openaplis/ap-job-runner#readme",
   "dependencies": {
+    "ap-fedex": "*",
     "ap-mysql": "*",
     "ap-object": "*",
-    "ap-protobuf": "*",
+    "ap-protobuf": "0.0.15",
     "async": "^2.1.5",
     "bson-objectid": "^1.1.5",
     "cron": "^1.2.1",
