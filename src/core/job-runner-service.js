@@ -10,7 +10,7 @@ const fedexService = new fedex_proto.FedexService(process.env.AP_FEDEX_SERVICE_B
 
 module.exports = {
   start: function (callback) {
-    var updateFexShipmentsJob = new CronJob('* */2 * * * *', function() {
+    var updateFexShipmentsJob = new CronJob('0 */60 16-20 * * 1-5', function() {
       fedexService.updateShipments({ message: 'null'}, function (err, message) {
         if(err) return console.log(err)
         console.log(message)
